@@ -167,8 +167,8 @@ window.addEventListener('DOMContentLoaded', function(){
         let formDataContact = new FormData(form);
 
         let obj = {};
-        formDataContact.forEach(function(valueContacts, key) {
-            obj[key] = valueContacts;
+        formDataContact.forEach(function(value, key) {
+            obj[key] = value;
         });
 
         let json = JSON.stringify(obj);
@@ -186,7 +186,7 @@ window.addEventListener('DOMContentLoaded', function(){
         });
 
         for (let i = 0; i < contactInput.length; i++) {
-            contactInput[i].valueContacts = '';
+            contactInput[i].value = '';
         }
     });
 // Slider :)
@@ -241,4 +241,52 @@ window.addEventListener('DOMContentLoaded', function(){
                 }
             }
         });
+
+        //Tour price calculator
+
+        let persons = document.querySelectorAll('.counter-block-input')[0],
+            restDays = document.querySelectorAll('.counter-block-input')[1],
+            place = document.getElementById('select'),
+            totalValue = document.getElementById('total'),
+            personsSum = 0,
+            daysSum = 0,
+            total = 0;
+
+            totalValue.innerHTML = 0;
+
+            persons.addEventListener('change', function(){
+                personsSum = +this.value;
+                total = (daysSum + personsSum)*4000;
+
+                if(restDays.value == '') {
+                    totalValue.innerHTML = 0;
+                } else if (persons.value == '') {
+                    totalValue.innerHTML = 0;
+                }
+                 else {
+                    totalValue.innerHTML = total;
+                }
+            });
+
+            restDays.addEventListener('change', function(){
+                daysSum = +this.value;
+                total = (daysSum + personsSum)*4000;
+                    //checking if our calc inputs arent emptpy
+                if(persons.value == '') {
+                    totalValue.innerHTML = 0;
+                } else if (restDays.value == '') {
+                    totalValue.innerHTML = 0; }
+                 else {
+                    totalValue.innerHTML = total;
+                }
+            });
+
+            place.addEventListener('change', function(){
+                if (restDays.value == '' || persons.value == '') {
+                    totalValue.innerHTML = 0;
+                } else {
+                    let a = total;
+                    totalValue.innerHTML = a * this.options[this.selectedIndex].value;
+                }
+            });
 });
